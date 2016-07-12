@@ -28,7 +28,7 @@ def clean_name(film):
     for keyword in keywords:
         name = name.split(keyword)[0]
 
-    # print '%s __ %s' % (name, year)
+    # print ('%s __ %s' % (name, year))
     return name.strip(' '), year
 
 def find_imdb(film):
@@ -51,7 +51,7 @@ def score_imdb(index):
 
 if __name__ == '__main__':
     if not len(sys.argv) == 2:
-        print 'usage: %s <film_dir>'
+        print ('usage: %s <film_dir>')
         sys.exit(1)
 
     film_dir = sys.argv[1]
@@ -68,6 +68,6 @@ if __name__ == '__main__':
         films_score.append([film, score])
     films_score.sort(key=lambda x: x[1], reverse=True)
 
-    print ''
+    print ('')
     for film in films_score:
-        print film
+        print (film)
