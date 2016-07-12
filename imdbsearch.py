@@ -43,7 +43,7 @@ def find_imdb(film):
 def score_imdb(index):
     r = requests.get('http://www.imdb.com/title/%s' % index)
 
-    m = re.search('<div class="titlePageSprite star-box-giga-star"> ([0-9]\.[0-9]) </div>', r.text)
+    m = re.search('<span itemprop="ratingValue">([0-9]\.[0-9])</span>', r.text)
     if not m or not len(m.groups()) == 1:
         print ('Could not parse score')
         return 0
