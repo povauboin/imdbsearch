@@ -61,8 +61,9 @@ if __name__ == '__main__':
     # print(films_clean)
 
     films_score = []
-    for film in films_clean:
-        sys.stdout.write('Searching %s... ' % film)
+    for film, year in films_clean:
+        sys.stdout.write('Searching %s [%s]... ' % (film, year))
+        # score = find_imdb(' '.join([film, year]))
         score = find_imdb(film)
         sys.stdout.write('%s\n' % score)
         films_score.append([film, score])
