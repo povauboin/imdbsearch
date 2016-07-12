@@ -7,19 +7,29 @@ import os
 import re
 import sys
 import glob
+import string
 import requests
 
 def clean_name(film):
     basename = os.path.basename(film)
     name = '.'.join(basename.split('.')[:-1]) if '.' in basename else basename
-    name = name.replace('.', ' ').replace('-', ' ').replace('_', ' ')
+
+    year = ''
+    m = re.search('.+((19|20)[0-9]{2})', name)
+    if m and len(m.groups()) > 1:
+        year = m.group(1)
+        name = name.split(year)[0]
+
     name = re.sub(r'\([^)]*\)', '', name)
     name = re.sub(r'\[[^\]]*\]', '', name)
-    keywords = ['CD', 'VOST', 'DVD', 'AC3', 'XviD', 'DivX', '720p', '1080p', 'BrRip', 'x264', 'UNRATED', 'HDRip', 'TRUE', 'DvDrip', 'FR', 'Disc', 'LiMiTED', 'KLAXXON', 'dvdrip', 'Remastered', 'extended dvdrip', 'BRRip']
+    name = name.translate(string.maketrans('.-_()[]', ' '*7))
+
+    keywords = keywords = ['Disc', 'CD', '720p', '1080p', 'x264']
     for keyword in keywords:
         name = name.split(keyword)[0]
-    # print '%s       ->       %s' % (basename, name)
-    return name.strip(' ')
+
+    # print '%s __ %s' % (name, year)
+    return name.strip(' '), year
 
 def find_imdb(film):
     r = requests.get('http://www.imdb.com/find?q=%s' % film)
